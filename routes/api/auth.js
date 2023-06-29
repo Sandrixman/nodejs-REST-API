@@ -3,7 +3,7 @@ const authRouter = express.Router();
 
 const { authCtrl } = require("../../controllers");
 const { authJoiSchemas } = require("../../models");
-const { validateBody } = require("../../middlewares");
+const { validateBody, authenticate } = require("../../middlewares");
 
 authRouter.post(
   "/register",
@@ -16,5 +16,9 @@ authRouter.post(
   validateBody(authJoiSchemas.loginSchema),
   authCtrl.login
 );
+
+authRouter.post("/logout", authenticate, authCtrl.logout);
+
+authRouter.get("/current", authenticate, authCtrl.getUser);
 
 module.exports = authRouter;

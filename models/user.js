@@ -8,10 +8,6 @@ const subscription = ["starter", "pro", "business"];
 
 const userSchema = new Schema(
   {
-    name: {
-      type: String,
-      required: [true, "name is required"],
-    },
     email: {
       type: String,
       match: emailRegexp,
@@ -29,11 +25,6 @@ const userSchema = new Schema(
       required: [true, "Set password for user"],
     },
     token: String,
-    owner: {
-      type: Schema.Types.ObjectId,
-      ref: "user",
-      required: true,
-    },
   },
   { versionKey: false, timestamps: true }
 );
@@ -41,7 +32,6 @@ const userSchema = new Schema(
 userSchema.post("save", handleMongooseError);
 
 const registerSchema = Joi.object({
-  name: Joi.string().required(),
   email: Joi.string().pattern(emailRegexp).required(),
   subscription: Joi.string().valid(...subscription),
   password: Joi.string().min(6).required(),
