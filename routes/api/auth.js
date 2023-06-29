@@ -21,4 +21,11 @@ authRouter.post("/logout", authenticate, authCtrl.logout);
 
 authRouter.get("/current", authenticate, authCtrl.getUser);
 
+authRouter.patch(
+  "/",
+  authenticate,
+  validateBody(authJoiSchemas.updateSubscriptionSchema),
+  authCtrl.updateUserSubscription
+);
+
 module.exports = authRouter;
