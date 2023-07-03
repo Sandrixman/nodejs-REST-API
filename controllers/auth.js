@@ -1,5 +1,9 @@
 const bcrypt = require("bcrypt");
+const jimp = require("jimp");
 const jwt = require("jsonwebtoken");
+const gravatar = require("gravatar");
+const path = require("path");
+const fs = require("fs/promises");
 const { User } = require("../models");
 const { HttpError, ctrlWrapper } = require("../helpers");
 
@@ -14,7 +18,13 @@ const register = async (req, res) => {
 
   const hashPassword = await bcrypt.hash(password, 10);
 
-  const newUser = await User.create({ ...req.body, password: hashPassword });
+  const avatarUrl = gravatar.url(email);
+
+  const newUser = await User.create({
+    ...req.body,
+    password: hashPassword,
+    avatarUrl,
+  });
   res.status(201).json({
     email: newUser.email,
     subscription: newUser.subscription,
@@ -68,10 +78,35 @@ const updateUserSubscription = async (req, res) => {
   res.json(result);
 };
 
+const updateUserAvatar = async (req, res) => {
+  const { _id } = req.user;
+  const { path: tempUpload, originalname } = req.file;
+
+  await jimp
+    .read(tempUpload)
+    .then((image) => {
+      return image.resize(250, 250).write(tempUpload);
+    })
+    .catch((err) => err);
+
+  const uniqFileName = `${_id}_${originalname}`;
+  const avatarDir = path.join(__dirname, "../", "public", "avatars");
+  const resultUpload = path.join(avatarDir, uniqFileName);
+  await fs.rename(tempUpload, resultUpload);
+  const avatarUrl = path.join("avatars", uniqFileName);
+
+  const result = await User.findByIdAndUpdate(_id, { avatarUrl });
+  if (!result) {
+    throw HttpError(404, "Not found");
+  }
+  res.json({ avatarUrl });
+};
+
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
   logout: ctrlWrapper(logout),
   getUser: ctrlWrapper(getUser),
   updateUserSubscription: ctrlWrapper(updateUserSubscription),
+  updateUserAvatar: ctrlWrapper(updateUserAvatar),
 };

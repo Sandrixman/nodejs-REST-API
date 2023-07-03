@@ -24,6 +24,7 @@ const userSchema = new Schema(
       minlength: 6,
       required: [true, "Set password for user"],
     },
+    avatarUrl: String,
     token: String,
   },
   { versionKey: false, timestamps: true }
@@ -48,10 +49,15 @@ const updateSubscriptionSchema = Joi.object({
     .required(),
 });
 
+const updateAvatarSchema = Joi.object({
+  avatarUrl: Joi.string().required(),
+});
+
 const authJoiSchemas = {
   loginSchema,
   registerSchema,
   updateSubscriptionSchema,
+  updateAvatarSchema,
 };
 
 const User = model("user", userSchema);
