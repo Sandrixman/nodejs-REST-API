@@ -11,7 +11,7 @@ authRouter.post(
   authCtrl.register
 );
 
-authRouter.get("/verify/:verificationCode", authCtrl.verifyEmail);
+authRouter.get("/verify/:verificationToken", authCtrl.verifyEmail);
 
 authRouter.post(
   "/verify",

@@ -21,22 +21,22 @@ const register = async (req, res) => {
 
   const avatarUrl = gravatar.url(email);
 
-  const verificationCode = nanoid();
+  const verificationToken = nanoid();
 
   const newUser = await User.create({
     ...req.body,
     password: hashPassword,
     avatarUrl,
-    verificationCode,
+    verificationToken,
   });
 
-  const sendEmailForVerify = {
+  const sendEmailForVerification = {
     to: email,
     subject: "Verify email",
-    html: `<a target="_blank" href="${BASE_URL}/users/verify/${verificationCode}">Click ferify email</a>`,
+    html: `<a target="_blank" href="${BASE_URL}/users/verify/${verificationToken}">Click ferify email</a>`,
   };
 
-  await sendEmail(sendEmailForVerify);
+  await sendEmail(sendEmailForVerification);
 
   res.status(201).json({
     email: newUser.email,
@@ -45,11 +45,11 @@ const register = async (req, res) => {
 };
 
 const verifyEmail = async (req, res) => {
-  const { verificationCode } = req.params;
-  const user = await User.findOne({ verificationCode });
+  const { verificationToken } = req.params;
+  const user = await User.findOne({ verificationToken });
 
   if (user.verify) {
-    throw HttpError(401, "Email already verified");
+    throw HttpError(400, "Verification has already been passed");
   }
 
   await User.findByIdAndUpdate(user._id, {
@@ -64,22 +64,22 @@ const resendVerifyEmail = async (req, res) => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    throw HttpError(401, "Email not found");
+    throw HttpError(404, "User not found");
   }
 
   if (user.verify) {
-    throw HttpError(401, "Email already verified");
+    throw HttpError(400, "Verification has already been passed");
   }
 
-  const sendEmailForVerify = {
+  const sendEmailForVerification = {
     to: email,
     subject: "Verify email",
-    html: `<a target="_blank" href="${BASE_URL}/users/verify/${user.verificationCode}">Click ferify email</a>`,
+    html: `<a target="_blank" href="${BASE_URL}/users/verify/${user.verificationToken}">Click ferify email</a>`,
   };
 
-  await sendEmail(sendEmailForVerify);
+  await sendEmail(sendEmailForVerification);
 
-  res.json({ message: "Verify email sent successfully" });
+  res.json({ message: "Verification email sent successfully" });
 };
 
 const login = async (req, res) => {
