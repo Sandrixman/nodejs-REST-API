@@ -11,16 +11,7 @@ const { DB_TEST_HOST, PORT = 3000 } = process.env;
 
 describe("login", () => {
   beforeAll(async () => {
-    mongoose
-      .connect(DB_TEST_HOST)
-      .then(() => {
-        app.listen(PORT);
-        console.log("Database connection successful");
-      })
-      .catch((error) => {
-        console.log(error.message);
-        process.exit(1);
-      });
+    mongoose.connect(DB_TEST_HOST);
   });
 
   afterAll(async () => {
