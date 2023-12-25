@@ -1,46 +1,28 @@
-const express = require("express");
-const contactsRouter = express.Router();
-const { contactsCtrl } = require("../../controllers");
-const { contactsJoiSchemas } = require("../../models");
-const { validateBody, isValidId, authenticate } = require("../../middlewares");
+const express = require("express")
+const contactsRouter = express.Router()
+const { contactsCtrl } = require("../../controllers")
+const { contactsJoiSchemas } = require("../../models")
+const { validateBody, isValidId, authenticate } = require("../../middlewares")
 
-contactsRouter.get("/", authenticate, contactsCtrl.listContacts);
+contactsRouter.get("/", authenticate, contactsCtrl.сontactsList)
 
-contactsRouter.get(
-  "/:contactId",
-  authenticate,
-  isValidId,
-  contactsCtrl.getContactById
-);
+contactsRouter.get("/:contactId", authenticate, isValidId, contactsCtrl.getContactById)
 
 contactsRouter.post(
-  "/",
-  authenticate,
-  validateBody(contactsJoiSchemas.addContactSchema),
-  contactsCtrl.addContact
-);
-
-contactsRouter.put(
-  "/:contactId",
-  authenticate,
-  isValidId,
-  validateBody(contactsJoiSchemas.addContactSchema),
-  contactsCtrl.updateContact
-);
+    "/",
+    authenticate,
+    validateBody(contactsJoiSchemas.addContactSchema),
+    contactsCtrl.addContact
+)
 
 contactsRouter.patch(
-  "/:contactId/favorite",
-  authenticate,
-  isValidId,
-  validateBody(contactsJoiSchemas.favoriteContactSchema),
-  contactsCtrl.updateContact
-);
+    "/:contactId",
+    authenticate,
+    isValidId,
+    validateBody(contactsJoiSchemas.updateContactSchema),
+    contactsCtrl.updateContact
+)
 
-contactsRouter.delete(
-  "/:contactId",
-  authenticate,
-  isValidId,
-  contactsCtrl.removeContact
-);
+contactsRouter.delete("/:contactId", authenticate, isValidId, contactsCtrl.removeContact)
 
-module.exports = contactsRouter;
+module.exports = contactsRouter
