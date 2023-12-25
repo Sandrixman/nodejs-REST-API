@@ -1,0 +1,932 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "My API",
+        "description": "All endpoints of backend requests are listed here\n",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://nodejs-homework-rest-api-7or0.onrender.com"
+        }
+    ],
+    "tags": [
+        {
+            "name": "auth",
+            "description": "authentification endpoints"
+        },
+        {
+            "name": "contacts",
+            "description": "manipulation with users data"
+        }
+    ],
+    "paths": {
+        "/users/register": {
+            "post": {
+                "tags": ["auth"],
+                "summary": "Registration new user",
+                "operationId": "registration",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Email-required"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Password"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Subscription"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Short-Info"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "409": {
+                        "$ref": "#/components/responses/409"
+                    },
+                    "500": {
+                        "description": "register: Internal Server Error"
+                    }
+                }
+            }
+        },
+        "users/verify/:verificationToken": {
+            "get": {
+                "tags": ["auth"],
+                "summary": "Email verification",
+                "operationId": "verification",
+                "description": "The link by which the user verifies his e-mail",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/VerificationToken"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Reporting about successful operation"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "500": {
+                        "description": "verification: Internal Server Error"
+                    }
+                }
+            }
+        },
+        "users/verify": {
+            "post": {
+                "tags": ["auth"],
+                "summary": "Resend email verification",
+                "operationId": "resendVerification",
+                "description": "Ability to resend the link for verifies e-mail",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Email-required"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Reporting about successful operation"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "500": {
+                        "description": "resendVerifyEmail: Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/users/login": {
+            "post": {
+                "tags": ["auth"],
+                "summary": "Authentication of user (before login you need to verify your email)",
+                "operationId": "login",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Email-required"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Password"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "token": {
+                                            "$ref": "#/components/schemas/properties/Token"
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/Short-Info"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "500": {
+                        "description": "login: Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/users/current": {
+            "get": {
+                "tags": ["auth"],
+                "summary": "Get data about current user",
+                "operationId": "currentUser",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "500": {
+                        "description": "authenticate: Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/users/logout": {
+            "get": {
+                "tags": ["auth"],
+                "summary": "Logout and cleaning token",
+                "operationId": "logout",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Authorization"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "500": {
+                        "description": "logout: Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/users/subscription": {
+            "patch": {
+                "tags": ["auth"],
+                "summary": "Subscription update",
+                "operationId": "subscription",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Subscription-required"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "token": {
+                                            "$ref": "#/components/schemas/properties/Token"
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/Short-Info"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "500": {
+                        "description": "updateUserSubscription: Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/users/avatar": {
+            "patch": {
+                "tags": ["auth"],
+                "summary": "Avatar update",
+                "operationId": "avatarUpdate",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Avatar"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "avatarUrl": {
+                                            "$ref": "#/components/schemas/properties/Avatar"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "500": {
+                        "description": "updateUserSubscription: Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/contacts": {
+            "get": {
+                "tags": ["contacts"],
+                "summary": "Get contacts list",
+                "operationId": "contactsList",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Authorization"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Query-page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Query-limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Query-favorite"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Contact"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "500": {
+                        "description": "contactsList: Internal Server Error"
+                    }
+                }
+            },
+            "post": {
+                "tags": ["contacts"],
+                "summary": "Create new contact",
+                "operationId": "addContact",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Name-required"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Email-required"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Phone-required"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Favorite"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Authorization"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NewContact"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "500": {
+                        "description": "addContact: Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/contacts/:contactId": {
+            "get": {
+                "tags": ["contacts"],
+                "summary": "Get contact by id",
+                "operationId": "getContactById",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Authorization"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NewContact"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "500": {
+                        "description": "getContactById: Internal Server Error"
+                    }
+                }
+            },
+            "patch": {
+                "tags": ["contacts"],
+                "summary": "Update contact by id",
+                "operationId": "updateContact",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Authorization"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Name"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Email"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Phone"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Favorite"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NewContact"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "500": {
+                        "description": "updateContact: Internal Server Error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["contacts"],
+                "summary": "Delete contact by id",
+                "operationId": "removeContact",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Authorization"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "contact deleted"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "500": {
+                        "description": "removeContact: Internal Server Error"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Short-Info": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "$ref": "#/components/schemas/properties/Email"
+                    },
+                    "subscription": {
+                        "$ref": "#/components/schemas/properties/Subscription"
+                    }
+                }
+            },
+            "User": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "$ref": "#/components/schemas/properties/Id"
+                    },
+                    "email": {
+                        "$ref": "#/components/schemas/properties/Email"
+                    },
+                    "subscription": {
+                        "$ref": "#/components/schemas/properties/Subscription"
+                    },
+                    "password": {
+                        "$ref": "#/components/schemas/properties/Password"
+                    },
+                    "verify": {
+                        "$ref": "#/components/schemas/properties/Boolean"
+                    },
+                    "verificationToken": {
+                        "$ref": "#/components/schemas/properties/Id"
+                    },
+                    "avatarUrl": {
+                        "$ref": "#/components/schemas/properties/Avatar"
+                    },
+                    "createdAt": {
+                        "$ref": "#/components/schemas/properties/Date"
+                    },
+                    "updatedAt": {
+                        "$ref": "#/components/schemas/properties/Date"
+                    },
+                    "token": {
+                        "$ref": "#/components/schemas/properties/Token"
+                    }
+                }
+            },
+            "NewContact": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "$ref": "#/components/schemas/properties/Id"
+                    },
+                    "name": {
+                        "$ref": "#/components/schemas/properties/Name"
+                    },
+                    "email": {
+                        "$ref": "#/components/schemas/properties/Email"
+                    },
+                    "phone": {
+                        "$ref": "#/components/schemas/properties/Phone"
+                    },
+                    "favorite": {
+                        "$ref": "#/components/schemas/properties/Boolean"
+                    },
+                    "owner": {
+                        "$ref": "#/components/schemas/properties/Id"
+                    },
+                    "createdAt": {
+                        "$ref": "#/components/schemas/properties/Date"
+                    },
+                    "updatedAt": {
+                        "$ref": "#/components/schemas/properties/Date"
+                    }
+                }
+            },
+            "Contact": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "$ref": "#/components/schemas/properties/Id"
+                    },
+                    "name": {
+                        "$ref": "#/components/schemas/properties/Name"
+                    },
+                    "email": {
+                        "$ref": "#/components/schemas/properties/Email"
+                    },
+                    "phone": {
+                        "$ref": "#/components/schemas/properties/Phone"
+                    },
+                    "favorite": {
+                        "$ref": "#/components/schemas/properties/Boolean"
+                    },
+                    "owner": {
+                        "$ref": "#/components/schemas/properties/Owner"
+                    }
+                }
+            },
+            "properties": {
+                "type": "object",
+                "properties": {
+                    "Id": {
+                        "type": "string",
+                        "example": "658704c2825037732b76ab90"
+                    },
+                    "Name": {
+                        "type": "string",
+                        "example": "john"
+                    },
+                    "Email": {
+                        "type": "string",
+                        "example": "john@email.com"
+                    },
+                    "Phone": {
+                        "type": "string",
+                        "example": "050-123-45-67"
+                    },
+                    "Password": {
+                        "type": "string",
+                        "example": "sdf4t54tFD@!grfdhgdf"
+                    },
+                    "Boolean": {
+                        "type": "boolean",
+                        "default": false
+                    },
+                    "Date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-12-23T16:03:14.573Z"
+                    },
+                    "Subscription": {
+                        "type": "string",
+                        "enum": ["starter", "pro", "business"],
+                        "default": "starter"
+                    },
+                    "Avatar": {
+                        "type": "string",
+                        "example": "avatars\\6586d669b98a0b91c0b70fdf_file.png"
+                    },
+                    "Token": {
+                        "type": "string",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ODZkNjY5Yjk4YTBiOTFjMGI3MGZkZiIsImlhdCI6MTcwMzMzODc0MSwiZXhwIjoxNzAzNDI1MTQxfQ.maDcwVTwkw-kU09uXIRWMqKDiXwE_Bb7Xw5ssEhBTJg"
+                    },
+                    "Owner": {
+                        "type": "object",
+                        "properties": {
+                            "_id": {
+                                "$ref": "#/components/schemas/properties/Id"
+                            },
+                            "email": {
+                                "$ref": "#/components/schemas/properties/Email"
+                            },
+                            "subscription": {
+                                "$ref": "#/components/schemas/properties/Subscription"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "parameters": {
+            "Name": {
+                "name": "name",
+                "in": "body",
+                "description": "Name of the user",
+                "required": false,
+                "schema": {
+                    "$ref": "#/components/schemas/properties/Name"
+                }
+            },
+            "Name-required": {
+                "name": "name",
+                "in": "body",
+                "description": "Name of the user",
+                "required": true,
+                "schema": {
+                    "$ref": "#/components/schemas/properties/Name"
+                }
+            },
+            "Email": {
+                "name": "email",
+                "in": "body",
+                "description": "E-mail of the user",
+                "required": false,
+                "schema": {
+                    "$ref": "#/components/schemas/properties/Email"
+                }
+            },
+            "Email-required": {
+                "name": "email",
+                "in": "body",
+                "description": "E-mail of the user",
+                "required": true,
+                "schema": {
+                    "$ref": "#/components/schemas/properties/Email"
+                }
+            },
+            "Password": {
+                "name": "password",
+                "in": "body",
+                "description": "User's password, minimum 6 characters",
+                "required": true,
+                "schema": {
+                    "$ref": "#/components/schemas/properties/Password"
+                }
+            },
+            "Phone": {
+                "name": "phone",
+                "in": "body",
+                "description": "User's phone number",
+                "required": false,
+                "schema": {
+                    "$ref": "#/components/schemas/properties/Phone"
+                }
+            },
+            "Phone-required": {
+                "name": "phone",
+                "in": "body",
+                "description": "User's phone number",
+                "required": true,
+                "schema": {
+                    "$ref": "#/components/schemas/properties/Phone"
+                }
+            },
+            "Favorite": {
+                "name": "favorite",
+                "in": "body",
+                "description": "Whether this user is a favorite",
+                "required": false,
+                "schema": {
+                    "$ref": "#/components/schemas/properties/Boolean"
+                }
+            },
+            "Subscription": {
+                "name": "subscription",
+                "in": "body",
+                "required": false,
+                "schema": {
+                    "$ref": "#/components/schemas/properties/Subscription"
+                }
+            },
+            "Subscription-required": {
+                "name": "subscription",
+                "in": "body",
+                "required": true,
+                "schema": {
+                    "$ref": "#/components/schemas/properties/Subscription"
+                }
+            },
+            "VerificationToken": {
+                "name": "verificationToken",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "$ref": "#/components/schemas/properties/Id"
+                }
+            },
+            "Authorization": {
+                "name": "authorization",
+                "in": "header",
+                "required": true,
+                "schema": {
+                    "$ref": "#/components/schemas/properties/Token"
+                }
+            },
+            "Avatar": {
+                "name": "avatar",
+                "in": "formData",
+                "required": true,
+                "schema": {
+                    "$ref": "#/components/schemas/properties/Avatar"
+                }
+            },
+            "Query-limit": {
+                "name": "limit",
+                "in": "query",
+                "description": "Number of contacts to return",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "default": 20
+                }
+            },
+            "Query-page": {
+                "name": "page",
+                "in": "query",
+                "description": "Page number",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "default": 1
+                }
+            },
+            "Query-favorite": {
+                "name": "favorite",
+                "in": "query",
+                "description": "Flag indicating whether to include favorites",
+                "required": false,
+                "schema": {
+                    "$ref": "#/components/schemas/properties/Boolean"
+                }
+            },
+            "Id": {
+                "name": "contactId",
+                "in": "path",
+                "description": "Id of the contact you are looking for",
+                "required": true,
+                "schema": {
+                    "$ref": "#/components/schemas/properties/Id"
+                }
+            }
+        },
+        "responses": {
+            "400": {
+                "description": "Bad Request",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "error": {
+                                    "type": "string",
+                                    "example": "Reporting that exactly went wrong"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "401": {
+                "description": "Unauthorized",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "error": {
+                                    "type": "string",
+                                    "example": "Reporting about wrong authentication"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "404": {
+                "description": "Not Found",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "error": {
+                                    "type": "string",
+                                    "example": "Reporting a search problem"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "409": {
+                "description": "Conflict",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "error": {
+                                    "type": "string",
+                                    "example": "Email already in use"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
