@@ -1,7 +1,9 @@
-const authCtrl = require("./auth");
-const contactsCtrl = require("./contacts");
+const authCtrl = require("./auth")
+const contactsCtrl = require("./contacts")
+const carsCtrl = require("./cars")
 
 module.exports = {
-  authCtrl,
-  contactsCtrl,
-};
+    authCtrl,
+    carsCtrl,
+    contactsCtrl,
+}

@@ -55,7 +55,7 @@
                         "$ref": "#/components/responses/409"
                     },
                     "500": {
-                        "description": "register: Internal Server Error"
+                        "description": "Internal Server Error"
                     }
                 }
             }
@@ -95,7 +95,7 @@
                         "$ref": "#/components/responses/404"
                     },
                     "500": {
-                        "description": "verification: Internal Server Error"
+                        "description": "Internal Server Error"
                     }
                 }
             }
@@ -135,7 +135,7 @@
                         "$ref": "#/components/responses/404"
                     },
                     "500": {
-                        "description": "resendVerifyEmail: Internal Server Error"
+                        "description": "Internal Server Error"
                     }
                 }
             }
@@ -179,7 +179,7 @@
                         "$ref": "#/components/responses/401"
                     },
                     "500": {
-                        "description": "login: Internal Server Error"
+                        "description": "Internal Server Error"
                     }
                 }
             }
@@ -212,7 +212,7 @@
                         "$ref": "#/components/responses/401"
                     },
                     "500": {
-                        "description": "authenticate: Internal Server Error"
+                        "description": "Internal Server Error"
                     }
                 }
             }
@@ -238,7 +238,7 @@
                         "$ref": "#/components/responses/401"
                     },
                     "500": {
-                        "description": "logout: Internal Server Error"
+                        "description": "Internal Server Error"
                     }
                 }
             }
@@ -282,7 +282,7 @@
                         "$ref": "#/components/responses/401"
                     },
                     "500": {
-                        "description": "updateUserSubscription: Internal Server Error"
+                        "description": "Internal Server Error"
                     }
                 }
             }
@@ -323,7 +323,7 @@
                         "$ref": "#/components/responses/401"
                     },
                     "500": {
-                        "description": "updateUserSubscription: Internal Server Error"
+                        "description": "Internal Server Error"
                     }
                 }
             }
@@ -368,7 +368,7 @@
                         "$ref": "#/components/responses/401"
                     },
                     "500": {
-                        "description": "contactsList: Internal Server Error"
+                        "description": "Internal Server Error"
                     }
                 }
             },
@@ -411,7 +411,7 @@
                         "$ref": "#/components/responses/401"
                     },
                     "500": {
-                        "description": "addContact: Internal Server Error"
+                        "description": "Internal Server Error"
                     }
                 }
             }
@@ -450,7 +450,7 @@
                         "$ref": "#/components/responses/404"
                     },
                     "500": {
-                        "description": "getContactById: Internal Server Error"
+                        "description": "Internal Server Error"
                     }
                 }
             },
@@ -499,7 +499,7 @@
                         "$ref": "#/components/responses/404"
                     },
                     "500": {
-                        "description": "updateContact: Internal Server Error"
+                        "description": "Internal Server Error"
                     }
                 }
             },
@@ -542,7 +542,7 @@
                         "$ref": "#/components/responses/404"
                     },
                     "500": {
-                        "description": "removeContact: Internal Server Error"
+                        "description": "Internal Server Error"
                     }
                 }
             }

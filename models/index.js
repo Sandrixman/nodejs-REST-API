@@ -1,9 +1,10 @@
-const { Contact, contactsJoiSchemas } = require("./contact");
-const { User, authJoiSchemas } = require("./user");
+const { Contact, Car, contactsJoiSchemas } = require("./contact")
+const { User, authJoiSchemas } = require("./user")
 
 module.exports = {
-  Contact,
-  contactsJoiSchemas,
-  User,
-  authJoiSchemas,
-};
+    Contact,
+    Car,
+    contactsJoiSchemas,
+    User,
+    authJoiSchemas,
+}
