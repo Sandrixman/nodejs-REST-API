@@ -3,7 +3,7 @@ const logger = require("morgan")
 const cors = require("cors")
 const swaggerUi = require("swagger-ui-express")
 const swaggerDoc = require("./swagger.json")
-const { contactsRouter, authRouter, carsRouter } = require("./routes/api")
+const { contactsRouter, authRouter, carsRouter, coursesRouter } = require("./routes/api")
 
 const app = express()
 
@@ -16,6 +16,7 @@ app.use(express.static("public"))
 
 app.use("/contacts", contactsRouter)
 app.use("/users", authRouter)
+app.use("/courses", coursesRouter)
 app.use("/cars", carsRouter)
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc))
 

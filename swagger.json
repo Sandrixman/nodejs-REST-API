@@ -12,18 +12,26 @@
     ],
     "tags": [
         {
-            "name": "auth",
-            "description": "authentification endpoints"
+            "name": "Auth",
+            "description": "Authentification endpoints"
         },
         {
-            "name": "contacts",
-            "description": "manipulation with users data"
+            "name": "Contacts",
+            "description": "Manipulation with users data"
+        },
+        {
+            "name": "Cars",
+            "description": "Cars API"
+        },
+        {
+            "name": "Courses",
+            "description": "Courses API"
         }
     ],
     "paths": {
         "/users/register": {
             "post": {
-                "tags": ["auth"],
+                "tags": ["Auth"],
                 "summary": "Registration new user",
                 "operationId": "registration",
                 "parameters": [
@@ -62,7 +70,7 @@
         },
         "users/verify/:verificationToken": {
             "get": {
-                "tags": ["auth"],
+                "tags": ["Auth"],
                 "summary": "Email verification",
                 "operationId": "verification",
                 "description": "The link by which the user verifies his e-mail",
@@ -102,7 +110,7 @@
         },
         "users/verify": {
             "post": {
-                "tags": ["auth"],
+                "tags": ["Auth"],
                 "summary": "Resend email verification",
                 "operationId": "resendVerification",
                 "description": "Ability to resend the link for verifies e-mail",
@@ -142,7 +150,7 @@
         },
         "/users/login": {
             "post": {
-                "tags": ["auth"],
+                "tags": ["Auth"],
                 "summary": "Authentication of user (before login you need to verify your email)",
                 "operationId": "login",
                 "parameters": [
@@ -186,7 +194,7 @@
         },
         "/users/current": {
             "get": {
-                "tags": ["auth"],
+                "tags": ["Auth"],
                 "summary": "Get data about current user",
                 "operationId": "currentUser",
                 "parameters": [
@@ -219,7 +227,7 @@
         },
         "/users/logout": {
             "get": {
-                "tags": ["auth"],
+                "tags": ["Auth"],
                 "summary": "Logout and cleaning token",
                 "operationId": "logout",
                 "parameters": [
@@ -245,7 +253,7 @@
         },
         "/users/subscription": {
             "patch": {
-                "tags": ["auth"],
+                "tags": ["Auth"],
                 "summary": "Subscription update",
                 "operationId": "subscription",
                 "parameters": [
@@ -289,7 +297,7 @@
         },
         "/users/avatar": {
             "patch": {
-                "tags": ["auth"],
+                "tags": ["Auth"],
                 "summary": "Avatar update",
                 "operationId": "avatarUpdate",
                 "parameters": [
@@ -330,7 +338,7 @@
         },
         "/contacts": {
             "get": {
-                "tags": ["contacts"],
+                "tags": ["Contacts"],
                 "summary": "Get contacts list",
                 "operationId": "contactsList",
                 "parameters": [
@@ -373,7 +381,7 @@
                 }
             },
             "post": {
-                "tags": ["contacts"],
+                "tags": ["Contacts"],
                 "summary": "Create new contact",
                 "operationId": "addContact",
                 "parameters": [
@@ -418,7 +426,7 @@
         },
         "/contacts/:contactId": {
             "get": {
-                "tags": ["contacts"],
+                "tags": ["Contacts"],
                 "summary": "Get contact by id",
                 "operationId": "getContactById",
                 "parameters": [
@@ -455,7 +463,7 @@
                 }
             },
             "patch": {
-                "tags": ["contacts"],
+                "tags": ["Contacts"],
                 "summary": "Update contact by id",
                 "operationId": "updateContact",
                 "parameters": [
@@ -504,7 +512,7 @@
                 }
             },
             "delete": {
-                "tags": ["contacts"],
+                "tags": ["Contacts"],
                 "summary": "Delete contact by id",
                 "operationId": "removeContact",
                 "parameters": [
@@ -546,6 +554,115 @@
                     }
                 }
             }
+        },
+        "/cars": {
+            "get": {
+                "tags": ["Cars"],
+                "summary": "Get rental cars",
+                "operationId": "getCars",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Query-page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Query-limit"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Car"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/courses": {
+            "get": {
+                "tags": ["Courses"],
+                "summary": "Get all courses",
+                "operationId": "getAllCourses",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Course"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/courses/:alias": {
+            "get": {
+                "tags": ["Courses"],
+                "summary": "Get course by alias",
+                "operationId": "getCourseByAlias",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Course"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/courses/products": {
+            "post": {
+                "tags": ["Courses"],
+                "summary": "Get the course product",
+                "operationId": "getProducts",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Categories"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -554,7 +671,7 @@
                 "type": "object",
                 "properties": {
                     "email": {
-                        "$ref": "#/components/schemas/properties/properties/Email"
+                        "$ref": "#/components/schemas/properties/properties/String"
                     },
                     "subscription": {
                         "$ref": "#/components/schemas/properties/properties/Subscription"
@@ -565,25 +682,25 @@
                 "type": "object",
                 "properties": {
                     "_id": {
-                        "$ref": "#/components/schemas/properties/properties/Id"
+                        "$ref": "#/components/schemas/properties/properties/String"
                     },
                     "email": {
-                        "$ref": "#/components/schemas/properties/properties/Email"
+                        "$ref": "#/components/schemas/properties/properties/String"
                     },
                     "subscription": {
                         "$ref": "#/components/schemas/properties/properties/Subscription"
                     },
                     "password": {
-                        "$ref": "#/components/schemas/properties/properties/Password"
+                        "$ref": "#/components/schemas/properties/properties/String"
                     },
                     "verify": {
                         "$ref": "#/components/schemas/properties/properties/Boolean"
                     },
                     "verificationToken": {
-                        "$ref": "#/components/schemas/properties/properties/Id"
+                        "$ref": "#/components/schemas/properties/properties/String"
                     },
                     "avatarUrl": {
-                        "$ref": "#/components/schemas/properties/properties/Avatar"
+                        "$ref": "#/components/schemas/properties/properties/String"
                     },
                     "createdAt": {
                         "$ref": "#/components/schemas/properties/properties/Date"
@@ -592,7 +709,7 @@
                         "$ref": "#/components/schemas/properties/properties/Date"
                     },
                     "token": {
-                        "$ref": "#/components/schemas/properties/properties/Token"
+                        "$ref": "#/components/schemas/properties/properties/String"
                     }
                 }
             },
@@ -600,22 +717,22 @@
                 "type": "object",
                 "properties": {
                     "_id": {
-                        "$ref": "#/components/schemas/properties/properties/Id"
+                        "$ref": "#/components/schemas/properties/properties/String"
                     },
                     "name": {
-                        "$ref": "#/components/schemas/properties/properties/Name"
+                        "$ref": "#/components/schemas/properties/properties/String"
                     },
                     "email": {
-                        "$ref": "#/components/schemas/properties/properties/Email"
+                        "$ref": "#/components/schemas/properties/properties/String"
                     },
                     "phone": {
-                        "$ref": "#/components/schemas/properties/properties/Phone"
+                        "$ref": "#/components/schemas/properties/properties/String"
                     },
                     "favorite": {
                         "$ref": "#/components/schemas/properties/properties/Boolean"
                     },
                     "owner": {
-                        "$ref": "#/components/schemas/properties/properties/Id"
+                        "$ref": "#/components/schemas/properties/properties/String"
                     },
                     "createdAt": {
                         "$ref": "#/components/schemas/properties/properties/Date"
@@ -629,16 +746,16 @@
                 "type": "object",
                 "properties": {
                     "_id": {
-                        "$ref": "#/components/schemas/properties/properties/Id"
+                        "$ref": "#/components/schemas/properties/properties/String"
                     },
                     "name": {
-                        "$ref": "#/components/schemas/properties/properties/Name"
+                        "$ref": "#/components/schemas/properties/properties/String"
                     },
                     "email": {
-                        "$ref": "#/components/schemas/properties/properties/Email"
+                        "$ref": "#/components/schemas/properties/properties/String"
                     },
                     "phone": {
-                        "$ref": "#/components/schemas/properties/properties/Phone"
+                        "$ref": "#/components/schemas/properties/properties/String"
                     },
                     "favorite": {
                         "$ref": "#/components/schemas/properties/properties/Boolean"
@@ -648,28 +765,171 @@
                     }
                 }
             },
+            "Car": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "year": {
+                        "$ref": "#/components/schemas/properties/properties/Number"
+                    },
+                    "make": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "model": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "img": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "description": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "fuelConsumption": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "engineSize": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "accessories": {
+                        "$ref": "#/components/schemas/properties/properties/Array"
+                    },
+                    "functionalities": {
+                        "$ref": "#/components/schemas/properties/properties/Array"
+                    },
+                    "rentalPrice": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "rentalCompany": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "address": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "rentalConditions": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "mileage": {
+                        "$ref": "#/components/schemas/properties/properties/Number"
+                    }
+                }
+            },
+            "Course": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "tags": {
+                        "$ref": "#/components/schemas/properties/properties/Array"
+                    },
+                    "alias": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "title": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "category": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "tagsTitle": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "metaTitle": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "metaDescription": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "advantages": {
+                        "$ref": "#/components/schemas/properties/properties/Advantages"
+                    },
+                    "seoText": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "faq": {
+                        "$ref": "#/components/schemas/properties/properties/Advantages"
+                    },
+                    "salary": {
+                        "$ref": "#/components/schemas/properties/properties/Salary"
+                    }
+                }
+            },
+            "Product": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "$ref": "#/components/schemas/properties/properties/Id"
+                    },
+                    "categories": {
+                        "$ref": "#/components/schemas/properties/properties/Array"
+                    },
+                    "tags": {
+                        "$ref": "#/components/schemas/properties/properties/Array"
+                    },
+                    "title": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "link": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "image": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "initialRating": {
+                        "$ref": "#/components/schemas/properties/properties/Number"
+                    },
+                    "characteristics": {
+                        "$ref": "#/components/schemas/properties/properties/Characteristics"
+                    },
+                    "description": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "price": {
+                        "$ref": "#/components/schemas/properties/properties/Number"
+                    },
+                    "oldPrice": {
+                        "$ref": "#/components/schemas/properties/properties/Number"
+                    },
+                    "credit": {
+                        "$ref": "#/components/schemas/properties/properties/Number"
+                    },
+                    "advantages": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "createdAt": {
+                        "$ref": "#/components/schemas/properties/properties/Date"
+                    },
+                    "updatedAt": {
+                        "$ref": "#/components/schemas/properties/properties/Date"
+                    },
+                    "html": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "clicks": {
+                        "$ref": "#/components/schemas/properties/properties/Number"
+                    },
+                    "reviews": {
+                        "$ref": "#/components/schemas/properties/properties/Reviews"
+                    },
+                    "reviewCount": {
+                        "$ref": "#/components/schemas/properties/properties/Number"
+                    },
+                    "reviewAvg": {
+                        "$ref": "#/components/schemas/properties/properties/Number"
+                    }
+                }
+            },
             "properties": {
                 "type": "object",
                 "properties": {
-                    "Id": {
+                    "String": {
                         "type": "string",
-                        "example": "658704c2825037732b76ab90"
-                    },
-                    "Name": {
-                        "type": "string",
-                        "example": "john"
-                    },
-                    "Email": {
-                        "type": "string",
-                        "example": "john@email.com"
-                    },
-                    "Phone": {
-                        "type": "string",
-                        "example": "050-123-45-67"
-                    },
-                    "Password": {
-                        "type": "string",
-                        "example": "sdf4t54tFD@!grfdhgdf"
+                        "example": "string"
                     },
                     "Boolean": {
                         "type": "boolean",
@@ -685,25 +945,108 @@
                         "enum": ["starter", "pro", "business"],
                         "default": "starter"
                     },
-                    "Avatar": {
-                        "type": "string",
-                        "example": "avatars\\6586d669b98a0b91c0b70fdf_file.png"
-                    },
-                    "Token": {
-                        "type": "string",
-                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ODZkNjY5Yjk4YTBiOTFjMGI3MGZkZiIsImlhdCI6MTcwMzMzODc0MSwiZXhwIjoxNzAzNDI1MTQxfQ.maDcwVTwkw-kU09uXIRWMqKDiXwE_Bb7Xw5ssEhBTJg"
-                    },
                     "Owner": {
                         "type": "object",
                         "properties": {
                             "_id": {
-                                "$ref": "#/components/schemas/properties/properties/Id"
+                                "$ref": "#/components/schemas/properties/properties/String"
                             },
                             "email": {
-                                "$ref": "#/components/schemas/properties/properties/Email"
+                                "$ref": "#/components/schemas/properties/properties/String"
                             },
                             "subscription": {
                                 "$ref": "#/components/schemas/properties/properties/Subscription"
+                            }
+                        }
+                    },
+                    "Salary": {
+                        "type": "object",
+                        "properties": {
+                            "count": {
+                                "$ref": "#/components/schemas/properties/properties/Number"
+                            },
+                            "juniorSalary": {
+                                "$ref": "#/components/schemas/properties/properties/Number"
+                            },
+                            "middleSalary": {
+                                "$ref": "#/components/schemas/properties/properties/Number"
+                            },
+                            "seniorSalary": {
+                                "$ref": "#/components/schemas/properties/properties/Number"
+                            },
+                            "updatedAt": {
+                                "$ref": "#/components/schemas/properties/properties/Date"
+                            },
+                            "_id": {
+                                "$ref": "#/components/schemas/properties/properties/String"
+                            }
+                        }
+                    },
+                    "Number": {
+                        "type": "number",
+                        "example": 777
+                    },
+                    "Array": {
+                        "type": "array",
+                        "example": ["string", "string", "string"]
+                    },
+                    "Advantages": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "title": {
+                                    "$ref": "#/components/schemas/properties/properties/String"
+                                },
+                                "description": {
+                                    "$ref": "#/components/schemas/properties/properties/String"
+                                },
+                                "_id": {
+                                    "$ref": "#/components/schemas/properties/properties/String"
+                                }
+                            }
+                        }
+                    },
+                    "Characteristics": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "$ref": "#/components/schemas/properties/properties/String"
+                                },
+                                "value": {
+                                    "$ref": "#/components/schemas/properties/properties/String"
+                                }
+                            }
+                        }
+                    },
+                    "Reviews": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "_id": {
+                                    "$ref": "#/components/schemas/properties/properties/String"
+                                },
+                                "description": {
+                                    "$ref": "#/components/schemas/properties/properties/String"
+                                },
+                                "title": {
+                                    "$ref": "#/components/schemas/properties/properties/String"
+                                },
+                                "name": {
+                                    "$ref": "#/components/schemas/properties/properties/String"
+                                },
+                                "rating": {
+                                    "$ref": "#/components/schemas/properties/properties/Number"
+                                },
+                                "createdAt": {
+                                    "$ref": "#/components/schemas/properties/properties/Date"
+                                },
+                                "updatedAt": {
+                                    "$ref": "#/components/schemas/properties/properties/Date"
+                                }
                             }
                         }
                     }
@@ -717,7 +1060,7 @@
                 "description": "Name of the user",
                 "required": false,
                 "schema": {
-                    "$ref": "#/components/schemas/properties/properties/Name"
+                    "$ref": "#/components/schemas/properties/properties/String"
                 }
             },
             "Name-required": {
@@ -726,7 +1069,7 @@
                 "description": "Name of the user",
                 "required": true,
                 "schema": {
-                    "$ref": "#/components/schemas/properties/properties/Name"
+                    "$ref": "#/components/schemas/properties/properties/String"
                 }
             },
             "Email": {
@@ -735,7 +1078,7 @@
                 "description": "E-mail of the user",
                 "required": false,
                 "schema": {
-                    "$ref": "#/components/schemas/properties/properties/Email"
+                    "$ref": "#/components/schemas/properties/properties/String"
                 }
             },
             "Email-required": {
@@ -744,7 +1087,7 @@
                 "description": "E-mail of the user",
                 "required": true,
                 "schema": {
-                    "$ref": "#/components/schemas/properties/properties/Email"
+                    "$ref": "#/components/schemas/properties/properties/String"
                 }
             },
             "Password": {
@@ -753,7 +1096,7 @@
                 "description": "User's password, minimum 6 characters",
                 "required": true,
                 "schema": {
-                    "$ref": "#/components/schemas/properties/properties/Password"
+                    "$ref": "#/components/schemas/properties/properties/String"
                 }
             },
             "Phone": {
@@ -762,7 +1105,7 @@
                 "description": "User's phone number",
                 "required": false,
                 "schema": {
-                    "$ref": "#/components/schemas/properties/properties/Phone"
+                    "$ref": "#/components/schemas/properties/properties/String"
                 }
             },
             "Phone-required": {
@@ -771,7 +1114,7 @@
                 "description": "User's phone number",
                 "required": true,
                 "schema": {
-                    "$ref": "#/components/schemas/properties/properties/Phone"
+                    "$ref": "#/components/schemas/properties/properties/String"
                 }
             },
             "Favorite": {
@@ -804,7 +1147,7 @@
                 "in": "path",
                 "required": true,
                 "schema": {
-                    "$ref": "#/components/schemas/properties/properties/Id"
+                    "$ref": "#/components/schemas/properties/properties/String"
                 }
             },
             "Authorization": {
@@ -812,7 +1155,7 @@
                 "in": "header",
                 "required": true,
                 "schema": {
-                    "$ref": "#/components/schemas/properties/properties/Token"
+                    "$ref": "#/components/schemas/properties/properties/String"
                 }
             },
             "Avatar": {
@@ -820,13 +1163,13 @@
                 "in": "formData",
                 "required": true,
                 "schema": {
-                    "$ref": "#/components/schemas/properties/properties/Avatar"
+                    "$ref": "#/components/schemas/properties/properties/String"
                 }
             },
             "Query-limit": {
                 "name": "limit",
                 "in": "query",
-                "description": "Number of contacts to return",
+                "description": "Number of items to return",
                 "required": false,
                 "schema": {
                     "type": "integer",
@@ -858,7 +1201,16 @@
                 "description": "Id of the contact you are looking for",
                 "required": true,
                 "schema": {
-                    "$ref": "#/components/schemas/properties/properties/Id"
+                    "$ref": "#/components/schemas/properties/properties/String"
+                }
+            },
+            "Categories": {
+                "name": "categories",
+                "in": "body",
+                "description": "Specify the product category",
+                "required": true,
+                "schema": {
+                    "$ref": "#/components/schemas/properties/properties/String"
                 }
             }
         },
