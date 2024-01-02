@@ -616,7 +616,11 @@
                 "tags": ["Courses"],
                 "summary": "Get course by alias",
                 "operationId": "getCourseByAlias",
-                "parameters": [],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Alias"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -831,6 +835,9 @@
                         "$ref": "#/components/schemas/properties/properties/String"
                     },
                     "title": {
+                        "$ref": "#/components/schemas/properties/properties/String"
+                    },
+                    "firstCategory": {
                         "$ref": "#/components/schemas/properties/properties/String"
                     },
                     "category": {
@@ -1199,6 +1206,14 @@
                 "name": "contactId",
                 "in": "path",
                 "description": "Id of the contact you are looking for",
+                "required": true,
+                "schema": {
+                    "$ref": "#/components/schemas/properties/properties/String"
+                }
+            },
+            "Alias": {
+                "name": "alias",
+                "in": "path",
                 "required": true,
                 "schema": {
                     "$ref": "#/components/schemas/properties/properties/String"
