@@ -10,7 +10,7 @@ const getAllCourses = async (req, res) => {
 const getCourseByAlias = async (req, res) => {
     const { alias } = req.params
 
-    const course = await Course.findOne({ alias })
+    const course = await Course.findOne({ "pages.alias": alias }, { "pages.$": 1 })
     if (!course) {
         return res.status(404).json({ error: "Курс не знайдено" })
     }

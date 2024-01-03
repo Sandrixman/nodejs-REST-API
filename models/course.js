@@ -52,6 +52,7 @@ const courseSchema = new Schema(
     },
     { versionKey: false }
 )
+
 const productSchema = new Schema(
     {
         _id: {
