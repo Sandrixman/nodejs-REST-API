@@ -828,41 +828,49 @@
                     "_id": {
                         "$ref": "#/components/schemas/properties/properties/String"
                     },
-                    "tags": {
-                        "$ref": "#/components/schemas/properties/properties/Array"
-                    },
-                    "alias": {
-                        "$ref": "#/components/schemas/properties/properties/String"
-                    },
-                    "title": {
-                        "$ref": "#/components/schemas/properties/properties/String"
-                    },
                     "firstCategory": {
                         "$ref": "#/components/schemas/properties/properties/String"
                     },
-                    "category": {
-                        "$ref": "#/components/schemas/properties/properties/String"
-                    },
-                    "tagsTitle": {
-                        "$ref": "#/components/schemas/properties/properties/String"
-                    },
-                    "metaTitle": {
-                        "$ref": "#/components/schemas/properties/properties/String"
-                    },
-                    "metaDescription": {
-                        "$ref": "#/components/schemas/properties/properties/String"
-                    },
-                    "advantages": {
-                        "$ref": "#/components/schemas/properties/properties/Advantages"
-                    },
-                    "seoText": {
-                        "$ref": "#/components/schemas/properties/properties/String"
-                    },
-                    "faq": {
-                        "$ref": "#/components/schemas/properties/properties/Advantages"
-                    },
-                    "salary": {
-                        "$ref": "#/components/schemas/properties/properties/Salary"
+                    "page": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "tags": {
+                                    "$ref": "#/components/schemas/properties/properties/Array"
+                                },
+                                "alias": {
+                                    "$ref": "#/components/schemas/properties/properties/String"
+                                },
+                                "title": {
+                                    "$ref": "#/components/schemas/properties/properties/String"
+                                },
+                                "category": {
+                                    "$ref": "#/components/schemas/properties/properties/String"
+                                },
+                                "tagsTitle": {
+                                    "$ref": "#/components/schemas/properties/properties/String"
+                                },
+                                "metaTitle": {
+                                    "$ref": "#/components/schemas/properties/properties/String"
+                                },
+                                "metaDescription": {
+                                    "$ref": "#/components/schemas/properties/properties/String"
+                                },
+                                "advantages": {
+                                    "$ref": "#/components/schemas/properties/properties/Advantages"
+                                },
+                                "seoText": {
+                                    "$ref": "#/components/schemas/properties/properties/String"
+                                },
+                                "faq": {
+                                    "$ref": "#/components/schemas/properties/properties/Advantages"
+                                },
+                                "salary": {
+                                    "$ref": "#/components/schemas/properties/properties/Salary"
+                                }
+                            }
+                        }
                     }
                 }
             },
