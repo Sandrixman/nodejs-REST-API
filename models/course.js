@@ -6,45 +6,49 @@ const courseSchema = new Schema(
         _id: {
             type: String,
         },
-        tags: {
-            type: [String],
-        },
         firstCategory: {
-            type: Number,
-        },
-        secondCategory: {
             type: String,
         },
-        alias: {
-            type: String,
-        },
-        title: {
-            type: String,
-        },
-        category: {
-            type: String,
-        },
-        tagsTitle: {
-            type: String,
-        },
-        metaTitle: {
-            type: String,
-        },
-        metaDescription: {
-            type: String,
-        },
-        advantages: {
-            type: [Object],
-        },
-        faq: {
-            type: [Object],
-        },
-        seoText: {
-            type: String,
-        },
-        salary: {
-            type: Object,
-        },
+        pages: [
+            {
+                tags: {
+                    type: [String],
+                },
+                secondCategory: {
+                    type: String,
+                },
+                alias: {
+                    type: String,
+                },
+                title: {
+                    type: String,
+                },
+                category: {
+                    type: String,
+                },
+                tagsTitle: {
+                    type: String,
+                },
+                metaTitle: {
+                    type: String,
+                },
+                metaDescription: {
+                    type: String,
+                },
+                advantages: {
+                    type: [Object],
+                },
+                faq: {
+                    type: [Object],
+                },
+                seoText: {
+                    type: String,
+                },
+                salary: {
+                    type: Object,
+                },
+            },
+        ],
     },
     { versionKey: false }
 )
