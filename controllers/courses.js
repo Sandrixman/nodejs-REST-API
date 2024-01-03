@@ -2,9 +2,19 @@ const { ctrlWrapper } = require("../helpers")
 const { Course, Product } = require("../models")
 
 const getAllCourses = async (req, res) => {
-    const courses = await Course.find()
+    const menu = await Course.find(
+        {},
+        {
+            _id: 1,
+            firstCategory: 1,
+            "pages._id": 1,
+            "pages.category": 1,
+            "pages.alias": 1,
+            "pages.title": 1,
+        }
+    )
 
-    res.status(200).json(courses)
+    res.status(200).json(menu)
 }
 
 const getCourseByAlias = async (req, res) => {
