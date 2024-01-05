@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose")
 const { handleMongooseError } = require("../helpers")
 
-const courseSchema = new Schema(
+const firstCategorySchema = new Schema(
     {
         _id: {
             type: String,
@@ -113,10 +113,11 @@ const productSchema = new Schema(
     { versionKey: false }
 )
 
-courseSchema.post("save", handleMongooseError)
+firstCategorySchema.post("save", handleMongooseError)
 productSchema.post("save", handleMongooseError)
 
-const Course = model("course", courseSchema)
-const Product = model("product", productSchema)
+const Services = model("services", firstCategorySchema)
+const Courses = model("courses", firstCategorySchema)
+const Product = model("products", productSchema)
 
-module.exports = { Course, Product }
+module.exports = { Services, Courses, Product }

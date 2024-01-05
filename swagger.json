@@ -26,6 +26,14 @@
         {
             "name": "Courses",
             "description": "Courses API"
+        },
+        {
+            "name": "Services",
+            "description": "Services API"
+        },
+        {
+            "name": "Products",
+            "description": "Products API"
         }
     ],
     "paths": {
@@ -599,7 +607,7 @@
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/Course"
+                                        "$ref": "#/components/schemas/firstCategory"
                                     }
                                 }
                             }
@@ -627,7 +635,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Course"
+                                    "$ref": "#/components/schemas/firstCategory"
                                 }
                             }
                         }
@@ -641,9 +649,65 @@
                 }
             }
         },
-        "/courses/products": {
+        "/services": {
+            "get": {
+                "tags": ["Services"],
+                "summary": "Get all services",
+                "operationId": "getAllServices",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/firstCategory"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/services/:alias": {
+            "get": {
+                "tags": ["Services"],
+                "summary": "Get service by alias",
+                "operationId": "getServiceByAlias",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Alias"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/firstCategory"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/products": {
             "post": {
-                "tags": ["Courses"],
+                "tags": ["Products"],
                 "summary": "Get the course product",
                 "operationId": "getProducts",
                 "parameters": [
@@ -822,7 +886,7 @@
                     }
                 }
             },
-            "Course": {
+            "firstCategory": {
                 "type": "object",
                 "properties": {
                     "_id": {
