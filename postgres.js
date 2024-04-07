@@ -14,7 +14,7 @@ const pool = new Pool({
 
 pool.connect()
     .then(() => {
-        sql.listen(port)
+        sql.listen(port, "0.0.0.0")
         console.log("Connected to PostgreSQL")
     })
     .catch((err) => console.error("Connection error", err.stack))
