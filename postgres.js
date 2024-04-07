@@ -6,7 +6,7 @@ const port = 3100
 
 const pool = new Pool({
     user: "postgres",
-    host: "localhost",
+    host: "https://nodejs-homework-rest-api-7or0.onrender.com/",
     database: "postgres",
     password: "28101981",
     port: 5432,
