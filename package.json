@@ -3,10 +3,8 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "start:postgres": "node postgres.js",
-        "start": "cross-env NODE_ENV=production node ./mongoose.js",
-        "start:both": "concurrently \"npm run start:postgres\" \"npm run start\"",
-        "dev": "cross-env NODE_ENV=development nodemon ./mongoose.js",
+        "start": "cross-env NODE_ENV=production node ./server.js",
+        "dev": "cross-env NODE_ENV=development nodemon ./server.js",
         "test": "jest",
         "lint": "eslint **/*.js",
         "lint:fix": "eslint --fix **/*.js"
@@ -27,7 +25,6 @@
         "nanoid": "^3.3.4",
         "nodemailer": "^6.9.3",
         "nodemon": "^2.0.22",
-        "pg": "^8.11.5",
         "swagger-ui-express": "^5.0.0"
     },
     "devDependencies": {
